@@ -1,11 +1,13 @@
 const express = require("express");
-const exitHook = require("async-exit-hook")
+const exitHook = require("async-exit-hook");
 const { CONNECT_DB, GET_DB, CLOSE_DB } = require("./config/mongodb");
-const {env} = require("./config/environment")
+const { env } = require("./config/environment");
+const { APIs_V1 } = require("./routes/v1/index");
 
 const START_SERVER = () => {
   const app = express();
-  const port = 3001;
+
+  app.use("/api/v1", APIs_V1)
 
   app.get("/", async (req, res) => {
     res.send("Heelo");
@@ -16,10 +18,9 @@ const START_SERVER = () => {
   });
 
   exitHook(() => {
-    CLOSE_DB()
-  })
+    CLOSE_DB();
+  });
 };
-
 
 // IIFE
 (async () => {
