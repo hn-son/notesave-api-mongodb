@@ -6,7 +6,8 @@ const { APIs_V1 } = require("./routes/v1/index");
 
 const START_SERVER = () => {
   const app = express();
-
+  app.use(express.json())
+  
   app.use("/api/v1", APIs_V1)
 
   app.get("/", async (req, res) => {

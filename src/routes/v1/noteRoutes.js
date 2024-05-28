@@ -1,5 +1,7 @@
 const express = require("express");
 const { StatusCodes } = require("http-status-codes");
+const { noteValidation } = require("../../validations/noteValidation");
+const { noteController } = require("../../controllers/noteController");
 
 const Router = express.Router();
 
@@ -7,10 +9,8 @@ Router.route("/")
   .get((req, res) => {
     res.status(StatusCodes.OK).json({ message: "get" });
   })
-  .post((req, res) => {
-    res.status(StatusCodes.CREATED).json({message: "post"})
-  });
+  .post(noteValidation.createNew, noteController.createNew);
 
 module.exports = {
-    noteRoutes: Router
-}
+  noteRoutes: Router,
+};
