@@ -3,16 +3,17 @@ const exitHook = require("async-exit-hook");
 const { CONNECT_DB, GET_DB, CLOSE_DB } = require("./config/mongodb");
 const { env } = require("./config/environment");
 const { APIs_V1 } = require("./routes/v1/index");
+const {
+  errorHandleMiddleware,
+} = require("./middlewares/errorHandleMiddleware");
 
 const START_SERVER = () => {
   const app = express();
-  app.use(express.json())
-  
-  app.use("/api/v1", APIs_V1)
+  app.use(express.json());
 
-  app.get("/", async (req, res) => {
-    res.send("Heelo");
-  });
+  app.use("/api/v1", APIs_V1);
+
+  app.use(errorHandleMiddleware);
 
   app.listen(env.APP_PORT, () => {
     console.log(`3. Server is running on port: ${env.APP_PORT}`);
