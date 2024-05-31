@@ -5,8 +5,8 @@ const ApiError = require("../utils/ApiError");
 const createNew = async (req, res, next) => {
   const correct = Joi.object()
     .keys({
-      id: Joi.string().required().trim().strict(),
-      name: Joi.string().required().trim().strict(),
+      noteName: Joi.string().required().trim().strict(),
+      active: Joi.boolean().default(false)
     })
     .unknown(true);
   try {
