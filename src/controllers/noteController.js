@@ -1,15 +1,12 @@
 const { StatusCodes } = require("http-status-codes");
-const ApiError = require("../utils/apiError")
+const { noteServices } = require("../services/noteServices");
 
 const createNew = async (req, res, next) => {
   try {
-    console.log(req.body);
-    res.status(StatusCodes.CREATED).json({ message: "CREATED" });
+    const createdNote = await noteServices.createNew(req.body)
+    res.status(StatusCodes.CREATED).json(createdNote);
   } catch (e) {
-    next(e)
-    // res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-    //   errors: e.message,
-    // });
+    next(e);
   }
 };
 

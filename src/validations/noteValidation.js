@@ -1,6 +1,6 @@
 const Joi = require("joi");
 const { StatusCodes } = require("http-status-codes");
-const ApiError = require("../utils/apiError");
+const ApiError = require("../utils/ApiError");
 
 const createNew = async (req, res, next) => {
   const correct = Joi.object()
