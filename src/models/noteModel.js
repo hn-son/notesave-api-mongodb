@@ -61,7 +61,6 @@ const getPagesSoftDeleted = async () => {
 
 const updateNotePage = async (data) => {
   try {
-    console.log(data.note);
     return await GET_DB()
       .collection(NOTE_COLLECTION_NAME)
       .updateOne({ _id: ObjectId.createFromHexString(data._id) }, { "$set": { note: data.note } });
