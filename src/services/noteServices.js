@@ -1,4 +1,6 @@
+const ApiError = require("../utils/ApiError");
 const { noteModel } = require("../models/noteModel");
+const { StatusCodes } = require("http-status-codes");
 
 const createNew = async (reqBody) => {
   try {
@@ -12,8 +14,21 @@ const createNew = async (reqBody) => {
   }
 };
 
+const getNoteDetail = async (id) => {
+  try {
+    const note = await noteModel.getNoteDetail(id)
+    if (!note) {
+      throw new ApiError(StatusCodes.NOT_FOUND, "Note not found")
+    }
+    return note
+  } catch (err) {
+    throw err
+  }
+}
+
 module.exports = {
   noteServices: {
     createNew,
+    getNoteDetail
   },
 };

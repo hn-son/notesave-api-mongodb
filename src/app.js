@@ -6,9 +6,14 @@ const { APIs_V1 } = require("./routes/v1/index");
 const {
   errorHandleMiddleware,
 } = require("./middlewares/errorHandleMiddleware");
+const cors = require("cors");
+const { corsOptions } = require("./config/cors");
 
 const START_SERVER = () => {
   const app = express();
+
+  app.use(cors(corsOptions));
+
   app.use(express.json());
 
   app.use("/api/v1", APIs_V1);

@@ -10,8 +10,18 @@ const createNew = async (req, res, next) => {
   }
 };
 
+const getNoteDetail = async (req, res, next) => {
+  try {
+    const note = await noteServices.getNoteDetail(req.params.id)
+    res.status(StatusCodes.OK).json(note)
+  } catch (err) {
+    next(err)
+  }
+}
+
 module.exports = {
   noteController: {
     createNew,
+    getNoteDetail
   },
 };

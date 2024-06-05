@@ -11,6 +11,8 @@ Router.route("/")
   })
   .post(noteValidation.createNew, noteController.createNew);
 
+Router.route("/:id").get(noteController.getNoteDetail).put();
+
 module.exports = {
   noteRoutes: Router,
 };

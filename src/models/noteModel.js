@@ -36,11 +36,24 @@ const findOneById = async (id) => {
   }
 };
 
+const getNoteDetail = async (id) => {
+  try {
+    return await GET_DB()
+      .collection(NOTE_COLLECTION_NAME)
+      .findOne({
+        _id: ObjectId(id),
+      });
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
 module.exports = {
   noteModel: {
     NOTE_COLLECTION_NAME,
     NOTE_COLLECTION_SCHEMA,
     createNote,
     findOneById,
+    getNoteDetail
   },
 };
