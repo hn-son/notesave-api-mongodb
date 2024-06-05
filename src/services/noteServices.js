@@ -52,12 +52,30 @@ const updateNotePage = async (data) => {
   }
 }
 
+const softDeletePage = async (id) => {
+  try {
+    return await noteModel.softDeletePage(id)
+  } catch (err) {
+    throw err
+  }
+}
+
+const hardDeletePage = async (id) => {
+  try {
+    return await noteModel.hardDeletePage(id)
+  } catch (err) {
+    throw err
+  }
+}
+
 module.exports = {
   noteServices: {
     createNew,
     getNoteDetail,
     getPages,
     getPagesSoftDeleted,
-    updateNotePage
+    updateNotePage,
+    softDeletePage,
+    hardDeletePage
   },
 };

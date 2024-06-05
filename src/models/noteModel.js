@@ -63,7 +63,10 @@ const updateNotePage = async (data) => {
   try {
     return await GET_DB()
       .collection(NOTE_COLLECTION_NAME)
-      .updateOne({ _id: ObjectId.createFromHexString(data._id) }, { "$set": { note: data.note } });
+      .findOneAndUpdate(
+        { _id: ObjectId.createFromHexString(data._id) },
+        { $set: { note: data.note } }
+      );
   } catch (err) {
     throw new Error(err);
   }
@@ -73,7 +76,10 @@ const softDeletePage = async (id) => {
   try {
     return await GET_DB()
       .collection(NOTE_COLLECTION_NAME)
-      .findOneAndUpdate({ _id: new ObjectId(id) }, { _destroy: true });
+      .findOneAndUpdate(
+        { _id: ObjectId.createFromHexString(id) },
+        { $set: { _destroy: true } }
+      );
   } catch (err) {
     throw new Error(err);
   }
@@ -83,7 +89,7 @@ const hardDeletePage = async (id) => {
   try {
     return await GET_DB()
       .collection(NOTE_COLLECTION_NAME)
-      .deleteOne({ _id: new ObjectId(id) });
+      .deleteOne({ _id: ObjectId.createFromHexString(id) });
   } catch (err) {
     throw new Error(err);
   }

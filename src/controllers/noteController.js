@@ -39,11 +39,31 @@ const updateNotePage = async (req, res, next) => {
 }
 
 
+const softDeletePage = async (req, res, next) => {
+  try {
+    await noteServices.softDeletePage(req.params.id)
+    res.status(StatusCodes.OK).json({})
+  } catch (err) {
+    next(err)
+  }
+}
+
+const hardDeletePage = async (req, res, next) => {
+  try {
+    await noteServices.hardDeletePage(req.params.id)
+    res.status(StatusCodes.OK).json({})
+  } catch (err) {
+    next(err)
+  }
+}
+
 module.exports = {
   noteController: {
     createNew,
     getNoteDetail,
     getPages,
-    updateNotePage
+    updateNotePage,
+    softDeletePage,
+    hardDeletePage
   },
 };
