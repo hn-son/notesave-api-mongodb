@@ -12,25 +12,15 @@ const NOTE_COLLECTION_SCHEMA = Joi.object()
   .unknown(true);
 
 const validateData = async (data) => {
-  return await NOTE_COLLECTION_SCHEMA.validateAsync(data, {abortEarly: false})
-}
+  return await NOTE_COLLECTION_SCHEMA.validateAsync(data, {
+    abortEarly: false,
+  });
+};
 
 const createNote = async (data) => {
   try {
-    const validData = await validateData(data)
+    const validData = await validateData(data);
     return await GET_DB().collection(NOTE_COLLECTION_NAME).insertOne(validData);
-  } catch (err) {
-    throw new Error(err);
-  }
-};
-
-const findOneById = async (id) => {
-  try {
-    return await GET_DB()
-      .collection(NOTE_COLLECTION_NAME)
-      .findOne({
-        _id: ObjectId(id),
-      });
   } catch (err) {
     throw new Error(err);
   }
@@ -41,8 +31,60 @@ const getNoteDetail = async (id) => {
     return await GET_DB()
       .collection(NOTE_COLLECTION_NAME)
       .findOne({
-        _id: ObjectId(id),
+        _id: new ObjectId(id),
       });
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+const getPages = async () => {
+  try {
+    return await GET_DB()
+      .collection(NOTE_COLLECTION_NAME)
+      .find({ _destroy: false })
+      .toArray();
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+const getPagesSoftDeleted = async () => {
+  try {
+    return await GET_DB()
+      .collection(NOTE_COLLECTION_NAME)
+      .find({ _destroy: true });
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+const updateNotePage = async (data) => {
+  try {
+    console.log(data.note);
+    return await GET_DB()
+      .collection(NOTE_COLLECTION_NAME)
+      .updateOne({ _id: ObjectId.createFromHexString(data._id) }, { "$set": { note: data.note } });
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+const softDeletePage = async (id) => {
+  try {
+    return await GET_DB()
+      .collection(NOTE_COLLECTION_NAME)
+      .findOneAndUpdate({ _id: new ObjectId(id) }, { _destroy: true });
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+const hardDeletePage = async (id) => {
+  try {
+    return await GET_DB()
+      .collection(NOTE_COLLECTION_NAME)
+      .deleteOne({ _id: new ObjectId(id) });
   } catch (err) {
     throw new Error(err);
   }
@@ -53,7 +95,11 @@ module.exports = {
     NOTE_COLLECTION_NAME,
     NOTE_COLLECTION_SCHEMA,
     createNote,
-    findOneById,
-    getNoteDetail
+    getNoteDetail,
+    getPages,
+    updateNotePage,
+    softDeletePage,
+    hardDeletePage,
+    getPagesSoftDeleted,
   },
 };

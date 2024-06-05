@@ -6,12 +6,10 @@ const { noteController } = require("../../controllers/noteController");
 const Router = express.Router();
 
 Router.route("/")
-  .get((req, res) => {
-    res.status(StatusCodes.OK).json({ message: "get" });
-  })
+  .get(noteController.getPages)
   .post(noteValidation.createNew, noteController.createNew);
 
-Router.route("/:id").get(noteController.getNoteDetail).put();
+Router.route("/:id").get(noteController.getNoteDetail).put(noteController.updateNotePage);
 
 module.exports = {
   noteRoutes: Router,

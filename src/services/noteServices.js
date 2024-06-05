@@ -26,9 +26,38 @@ const getNoteDetail = async (id) => {
   }
 }
 
+const getPages = async () => {
+  try {
+    return await noteModel.getPages()
+  } catch (err) {
+    throw err
+  }
+}
+
+
+const getPagesSoftDeleted = async () => {
+  try {
+    return await noteModel.getPagesSoftDeleted()
+  } catch (err) {
+    throw err
+  }
+}
+
+
+const updateNotePage = async (data) => {
+  try {
+    return await noteModel.updateNotePage(data)
+  } catch (err) {
+    throw err
+  }
+}
+
 module.exports = {
   noteServices: {
     createNew,
-    getNoteDetail
+    getNoteDetail,
+    getPages,
+    getPagesSoftDeleted,
+    updateNotePage
   },
 };

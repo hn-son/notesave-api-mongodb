@@ -19,9 +19,31 @@ const getNoteDetail = async (req, res, next) => {
   }
 }
 
+const getPages = async (req, res, next) => {
+  try {
+    const pages = await noteServices.getPages()
+    res.status(StatusCodes.OK).json(pages)
+  } catch (err) {
+    next(err)
+  }
+}
+
+
+const updateNotePage = async (req, res, next) => {
+  try {
+    const updateNotePage = await noteServices.updateNotePage(req.body)
+    res.status(StatusCodes.OK).json(updateNotePage)
+  } catch (err) {
+    next(err)
+  }
+}
+
+
 module.exports = {
   noteController: {
     createNew,
-    getNoteDetail
+    getNoteDetail,
+    getPages,
+    updateNotePage
   },
 };
