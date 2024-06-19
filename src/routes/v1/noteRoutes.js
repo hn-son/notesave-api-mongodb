@@ -14,6 +14,8 @@ Router.route("/:id")
   .put(noteController.softDeletePage)
   .delete(noteController.hardDeletePage);
 
+Router.route("/uploadFile").post(noteController.uploadFile)
+
 module.exports = {
   noteRoutes: Router,
 };

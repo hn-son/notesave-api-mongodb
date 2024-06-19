@@ -8,13 +8,19 @@ const {
 } = require("./middlewares/errorHandleMiddleware");
 const cors = require("cors");
 const { corsOptions } = require("./config/cors");
+const multer = require("multer");
 
 const START_SERVER = () => {
   const app = express();
+  const upload = multer({
+    storage: multer.memoryStorage()
+  })
 
   app.use(cors(corsOptions));
 
   app.use(express.json());
+
+  app.use(upload.single("file"));
 
   app.use("/api/v1", APIs_V1);
 
