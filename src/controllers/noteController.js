@@ -44,7 +44,7 @@ const updateNotePage = async (req, res, next) => {
 const softDeletePage = async (req, res, next) => {
   try {
     await noteServices.softDeletePage(req.params.id);
-    res.status(StatusCodes.OK);
+    res.status(StatusCodes.OK).send(StatusCodes.OK);
   } catch (err) {
     next(err);
   }
@@ -62,7 +62,6 @@ const hardDeletePage = async (req, res, next) => {
 // upload storage firebase
 const uploadFile = async (req, res, next) => {
   try {
-    console.log(req.file);
     if (!req.file) {
       throw new ApiError(StatusCodes.BAD_REQUEST, "No File Found");
     }
@@ -70,6 +69,7 @@ const uploadFile = async (req, res, next) => {
     const fileName = Buffer.from(req.file.originalname, "latin1").toString(
       "utf8"
     );
+    
     const blob = bucket.file(fileName);
 
     const blobWrite = blob.createWriteStream({
@@ -83,7 +83,6 @@ const uploadFile = async (req, res, next) => {
     });
 
     blobWrite.on("finish", () => {
-      
       res.status(StatusCodes.OK).json({
         url: format(
           `https://storage.googleapis.com/${bucket.name}/${blob.name}`
@@ -99,6 +98,14 @@ const uploadFile = async (req, res, next) => {
   }
 };
 
+const fetchURL = async (req, res, next) => {
+  try {
+    console.log(req.params)
+  } catch (err) {
+    next(err)
+  }
+}
+
 
 module.exports = {
   noteController: {
@@ -109,5 +116,6 @@ module.exports = {
     softDeletePage,
     hardDeletePage,
     uploadFile,
+    fetchURL
   },
 };
